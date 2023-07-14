@@ -1,5 +1,5 @@
 const express = require("express");
-const studentModel = require("../models/studentModel");
+const studentModel = require("../models/studentmodel");
 const { sendResponse } = require("../helper/helper");
 const StudentController = require("../controller/studentcontroller");
 

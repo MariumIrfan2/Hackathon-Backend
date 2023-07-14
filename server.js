@@ -8,6 +8,7 @@ const cors = require('cors');
 app.use(express.json());
 app.use(cors());
 app.use('/api/user', UserRouter);
+app.use('/api/student', UserRouter);
 
 const PORT = process.env.PORT || 3000;
 mongoose.set("strictQuery", false)

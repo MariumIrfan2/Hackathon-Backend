@@ -3,12 +3,13 @@ const mongoose = require('mongoose')
 const app = express();
 
 const UserRouter = require('./routes/userRouter');
+const StudentRouter = require('./routes/studentRouter');
 require('dotenv').config();
 const cors = require('cors');
 app.use(express.json());
 app.use(cors());
 app.use('/api/user', UserRouter);
-app.use('/api/student', UserRouter);
+app.use('/api/student', StudentRouter);
 
 const PORT = process.env.PORT || 3000;
 mongoose.set("strictQuery", false)

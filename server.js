@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const app = express();
 
 const UserRouter = require('./routes/userRouter');
-const StudentRouter = require('./routes/studentRouter');
+const StudentRouter = require('./routes/studentrouter');
 require('dotenv').config();
 const cors = require('cors');
 app.use(express.json());

@@ -1,36 +1,30 @@
-const express = require('express');
-const mongoose = require('mongoose')
+const express = require("express");
+const mongoose = require("mongoose");
+const StudentRouter = require("./routes/studentRouter");
+const UserRoute = require("./routes/userroute");
+const cors = require("cors");
+require("dotenv").config();
+
 const app = express();
-
-const UserRouter = require('./routes/userRouter');
-const StudentRouter = require('./routes/studentrouter')
-
-require('dotenv').config();
-const cors = require('cors');
 app.use(express.json());
 app.use(cors());
-app.use('/api/user', UserRouter);
 
+app.use("/api/student", StudentRouter);
+app.use("/api/user", UserRoute);
 
-const PORT = process.env.PORT || 3000;
-mongoose.set("strictQuery", false)
-
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.log(error);
-        process.exit(1);
-    }
-}
-//Routes go here
 app.get("/", (req, res) => {
-    res.send("Server Started");
+  res.send("Server Started");
 });
 
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Listening on Port ${PORT}`);
-    })
-})
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(
+        "Database Connected Successfully and server is listening on this port 5000"
+      );
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

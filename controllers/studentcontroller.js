@@ -1,5 +1,5 @@
 const { sendResponse } = require("../helper/helper");
-const studentModel = require("../model/studentModel");
+const studentModel = require("../models/studentModel");
 
 const StudentController = {
   getStudents: async (req, res) => {

@@ -1,9 +1,9 @@
 const express = require("express");
-const route = express.Router();
-const studentModel = require("../model/studentModel");
-const StudentController = require("../controller/studentcontroller");
+const studentModel = require("../models/studentModel");
 const { sendResponse } = require("../helper/helper");
+const StudentController = require("../controllers/studentcontroller");
 
+const route = express.Router();
 
 route.get("/", StudentController.getStudents);
 

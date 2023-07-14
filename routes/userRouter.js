@@ -1,27 +1,15 @@
-const mongoose = require('mongoose');
-const UserSchema = new mongoose.Schema({
-    firstName:{
-        type: String,
-        required: true,
-    },
-    lastName:{
-        type: String,
-        
-    },
-    email:{
-        type: String,
-        required: true,
-    },
-    password:{
-        type: String,
-        required: true,
-    },
-    contact:{
-        type: String,
-        required: true,
-    }
-});
+const express = require('express');
+const route = express.Router();
+const AuthController = require("../controller/authController")
 
-const UserModel = mongoose.model('users', UserSchema);
+route.post("/register", AuthController.register );
+route.post("/login", AuthController.login );
+route.post("/");
+route.get("/",  AuthController.getUsers);
+route.get("/test", AuthController.protected, (req, res) => {
+   res.send("/User Valid");
+ });
+ route.put("/");
+ route.delete("/");
 
-module.exports = UserModel;
+module.exports = route;

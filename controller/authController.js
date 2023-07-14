@@ -1,6 +1,6 @@
 const UserModel = require('../model/userModel');
 const { sendResponse } = require('../helper/helper')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const  AuthController = {

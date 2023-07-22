@@ -44,28 +44,7 @@ route.post("/signup", async (req, res) => {
     }
   }
 });
-// route.post("/login", AuthController.login);
-route.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const obj = { email, password };
-  console.log(obj);
-  let result = await UserModel.findOne({ email });
-  if (result) {
-    let isConfirm = await bcrypt.compare(obj.password, result.password);
-    if (isConfirm) {
-      let token = jwt.sign({ ...result }, process.env.SECURE_KEY, {
-        expiresIn: "24h",
-      });
-      res.send(
-        sendResponse(true, { user: result, token }, "Login Successfully")
-      );
-    } else {
-      res.send(sendResponse(false, null, "Credential Error"));
-    }
-  } else {
-    res.send(sendResponse(false, err, "User Doesn't Exist"));
-  }
-},);
+route.post("/login", AuthController.login);
 route.post("/");
 route.get("/", AuthController.getUsers);
 route.get("/test", AuthController.protected, (req, res) => {

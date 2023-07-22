@@ -5,25 +5,33 @@ const jwt = require("jsonwebtoken");
 
 const AuthController = {
   login: async (req, res) => {
-    const { email, password } = req.body;
-    const obj = { email, password };
-    console.log(obj);
-    let result = await userModel.findOne({ email });
-    if (result) {
-      let isConfirm = await bcrypt.compare(obj.password, result.password);
-      if (isConfirm) {
-        let token = jwt.sign({ ...result }, process.env.SECURE_KEY, {
-          expiresIn: "24h",
-        });
-        res.send(
-          sendResponse(true, { user: result, token }, "Login Successfully")
-        );
+    try {
+      const { email, password } = req.body;
+      const obj = { email, password };
+      console.log(obj);
+      let result = await userModel.findOne({ email });
+      if (result) {
+        let isConfirm = await bcrypt.compare(obj.password, result.password);
+        console.log(isConfirm)
+        if (isConfirm) {
+          console.log("token matched")
+          let token = jwt.sign({ ...result }, process.env.SECURE_KEY, {
+            expiresIn: "24h",
+          })
+          console.log(token)
+          res.send(
+            sendResponse(true, { user: result, token }, "Login Successfully")).status(200);
+        } else {
+          res.send(sendResponse(false, null, "Credential Error")).status(403);
+        }
       } else {
-        res.send(sendResponse(false, null, "Credential Error"));
+        res.send(sendResponse(false, err, "User Doesn't Exist"));
       }
-    } else {
-      res.send(sendResponse(false, err, "User Doesn't Exist"));
     }
+    catch (err) {
+      console.log(err)
+    }
+
   },
   getUsers: async (req, res) => {
     userModel
@@ -31,7 +39,7 @@ const AuthController = {
       .then((result) => {
         res.send(sendResponse(true, result));
       })
-      .catch((err) => {});
+      .catch((err) => { });
   },
   protected: async (req, res, next) => {
     let token = req.headers.authorization;

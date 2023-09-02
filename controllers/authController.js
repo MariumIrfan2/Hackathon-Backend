@@ -25,13 +25,44 @@ const AuthController = {
       res.send(sendResponse(false, err, "User Doesn't Exist"));
     }
   },
-  getUsers: async (req, res) => {
-    userModel
-      .find()
-      .then((result) => {
-        res.send(sendResponse(true, result));
-      })
-      .catch((err) => {});
+  signup: async (req, res) => {
+    const { userName, email, password } = req.body;
+    const obj = { userName, email, password };
+    let requiredArr = ["userName", "email", "password"];
+    let errArr = [];
+
+    requiredArr.forEach((x) => {
+      if (!obj[x]) {
+        errArr.push(x);
+      }
+    });
+
+    if (errArr.length > 0) {
+      res
+        .send(sendResponse(false, null, "Some Fileds are Missing", errArr))
+        .status(400);
+      return;
+    } else {
+      let hashPassword = await bcrypt.hash(obj.password, 10);
+      obj.password = hashPassword;
+
+      const existingUser = await userModel.findOne({ email });
+      if (existingUser) {
+        res
+          .send(sendResponse(false, null, "This Email is Already Exist"))
+          .status(403);
+      } else {
+        userModel.create(obj)
+          .then((result) => {
+            res.send(sendResponse(true, result, "User Saved Successfully"));
+          })
+          .catch((err) => {
+            res
+              .send(sendResponse(false, err, "Internal Server Error"))
+              .status(400);
+          });
+      }
+    }
   },
   protected: async (req, res, next) => {
     let token = req.headers.authorization;

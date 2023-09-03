@@ -14,11 +14,9 @@ const taskSchema = new mongoose.Schema({
   },
   createdDate: {
     type: String,
-    required: true,
   },
   updatedDate: {
     type: String,
-    required: true,
   },
   
   creatorUserID: {

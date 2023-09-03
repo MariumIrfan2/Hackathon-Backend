@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const StudentRouter = require("./routes/studentRouter");
 const UserRoute = require("./routes/userroute");
+const TaskRoute = require("./routes/taskRoute");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -11,6 +12,7 @@ app.use(cors());
 
 app.use("/api/student", StudentRouter);
 app.use("/api/user", UserRoute);
+app.use("/api/task", TaskRoute);
 
 app.get("/", (req, res) => {
   res.send("Server Started");

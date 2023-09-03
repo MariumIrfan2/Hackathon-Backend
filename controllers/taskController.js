@@ -1,10 +1,10 @@
 const { sendResponse } = require("../helper/helper");
-const userModel = require("../models/userModel");
+const taskModel = require("../models/taskModel");
 
-const UserController = {
-    getUser: async (req, res) => {
+const TaskController = {
+    getTask: async (req, res) => {
         try {
-            const result = await userModel.find();
+            const result = await taskModel.find();
             if (!result) {
                 res.send(sendResponse(false, null, "No Data Found")).status(404);
             } else {
@@ -15,10 +15,10 @@ const UserController = {
             res.send(sendResponse(false, null, "Internal Server Error")).status(400);
         }
     },
-    getUserById: async (req, res) => {
+    getTaskById: async (req, res) => {
         try {
             let id = req.params.id;
-            const result = await userModel.findById(id);
+            const result = await taskModel.findById(id);
             if (!result) {
                 res.send(sendResponse(false, null, "No Data Found")).status(404);
             } else {
@@ -29,22 +29,8 @@ const UserController = {
             res.send(sendResponse(false, null, "Internal Server Error")).status(400);
         }
     },
-    searchUser: async (req, res) => {
-
-        let { firstName, lastName } = req.body;
-        if (firstName) {
-            let result = await userModel.find({
-                firstName: firstName,
-                lastName: lastName,
-            });
-            if (!result) {
-                res.send(sendResponse(false, null, "No Data Found")).status(404);
-            } else {
-                res.send(sendResponse(true, result)).status(200);
-            }
-        }
-    },
-    createUser: async (req, res) => {
+    
+    createTask: async (req, res) => {
         let { userName, email, password, firstName, lastName, profilePic, DOB, gender, location, bio } = req.body;
         try {
             let errArr = [];
@@ -64,7 +50,7 @@ const UserController = {
                 return;
             } else {
                 let obj = { userName, email, password, firstName, lastName, profilePic, DOB, gender, location, bio };
-                let user = new userModel(obj);
+                let user = new taskModel(obj);
                 await user.save();
                 if (!user) {
                     res.send(sendResponse(false, null, "Internal Server Error")).status(400)
@@ -76,14 +62,14 @@ const UserController = {
             res.send(sendResponse(false, null, "Internal Server Error"));
         }
     },
-    editUser: async (req, res) => {
+    editTask: async (req, res) => {
         try {
             let id = req.params.id;
-            let result = await userModel.findById(id);
+            let result = await taskModel.findById(id);
             if (!result) {
                 res.send(sendResponse(false, null, "No Data Found")).status(400);
             } else {
-                let updateResult = await userModel.findByIdAndUpdate(id, req.body, {
+                let updateResult = await taskModel.findByIdAndUpdate(id, req.body, {
                     new: true,
                 });
                 if (!updateResult) {
@@ -98,14 +84,14 @@ const UserController = {
             res.send(sendResponse(false, null, "Error")).status(400);
         }
     },
-    deleteUser: async (req, res) => {
+    deleteTask: async (req, res) => {
         try {
             let id = req.params.id;
-            let result = await userModel.findById(id);
+            let result = await taskModel.findById(id);
             if (!result) {
                 res.send(sendResponse(false, null, "No Data on this ID")).status(404);
             } else {
-                let delResult = await userModel.findByIdAndDelete(id);
+                let delResult = await taskModel.findByIdAndDelete(id);
                 if (!delResult) {
                     res.send(sendResponse(false, null, "Error")).status(404);
                 } else {
@@ -116,23 +102,6 @@ const UserController = {
             res.send(sendResponse(false, null, "No Data on this ID")).status(404);
         }
     },
-    searchWithPagination: async (req, res) => {
-        try {
-            let { pageNo, pageSize, searchBy, searchVal } = req.body;
-
-            let result = await userModel
-                .find({ [searchBy]: searchVal })
-                .skip((pageNo - 1) * pageSize)
-                .limit(pageSize);
-            if (result) {
-                let count = await userModel.countDocuments();
-                req.headers.recCount = count;
-                res.send({ ...sendResponse(true, result), count: count });
-            } else {
-                res.send(sendResponse(false, null, "No Data Found"));
-            }
-        } catch (e) { }
-    },
 };
 
-module.exports = UserController;
+module.exports = TaskController;

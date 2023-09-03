@@ -11,7 +11,7 @@ route.get("/", UserController.getUser);
 route.get("/:id", UserController.getUserById);
 route.post("/", UserController.createUser);
 route.put("/", UserController.editUser);
-route.delete("/:id", UserController.editUser);
+route.delete("/:id", UserController.deleteUser);
 
 
 route.post("/signup", AuthController.signup );

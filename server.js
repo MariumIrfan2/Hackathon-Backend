@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const StudentRouter = require("./routes/studentRouter");
 const UserRoute = require("./routes/userroute");
 const TaskRoute = require("./routes/taskRoute");
+const ProjectRoute = require("./routes/projectRoute");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use("/api/student", StudentRouter);
 app.use("/api/user", UserRoute);
 app.use("/api/task", TaskRoute);
+app.use("/api/project", ProjectRoute);
 
 app.get("/", (req, res) => {
   res.send("Server Started");
@@ -23,8 +25,7 @@ mongoose
   .then(() => {
     app.listen(process.env.PORT, () => {
       console.log(
-        "Database Connected Successfully and server is listening on this port 5000"
-      );
+        "Database Connected Successfully and server is listening on this port 5000");
     });
   })
   .catch((err) => {

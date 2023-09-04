@@ -59,6 +59,12 @@ const UserController = {
             if (!password) {
                 errArr.push("Required: Password")
             }
+            if (!firstName) {
+                errArr.push("Required: firstName")
+            }
+            if (!lastName) {
+                errArr.push("Required: lastName")
+            }
             if (errArr.length > 0) {
                 res.send(sendResponse(false, errArr, null, "required All Feilds")).status(400);
                 return;

@@ -1,8 +1,5 @@
 const express = require("express");
 const route = express.Router();
-const { sendResponse } = require("../helper/helper");
-const UserModel = require("../models/userModel");
-const bcrypt = require("bcryptjs");
 const AuthController = require("../controllers/authController");
 const UserController = require("../controllers/userController");
 

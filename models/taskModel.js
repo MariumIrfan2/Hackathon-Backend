@@ -26,7 +26,7 @@ const taskSchema = new mongoose.Schema({
     default: Date.now,
   },
   priority: {
-    type: string,
+    type: String,
     required: true,
   },
   creatorUserID: {

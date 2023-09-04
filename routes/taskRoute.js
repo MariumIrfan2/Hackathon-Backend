@@ -9,6 +9,4 @@ route.post("/", TaskController.createTask);
 route.put("/", TaskController.editTask);
 route.delete("/:id", TaskController.deleteTask);
 
-
-
 module.exports = route;

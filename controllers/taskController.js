@@ -29,7 +29,7 @@ const TaskController = {
             res.send(sendResponse(false, null, "Internal Server Error")).status(400);
         }
     },
-    
+
     createTask: async (req, res) => {
         let { title, description, dueDate, createdDate, updatedDate, creatorUserID } = req.body;
         try {
@@ -45,12 +45,12 @@ const TaskController = {
                 return;
             } else {
                 let obj = { title, description, dueDate, createdDate, updatedDate, creatorUserID };
-                let user = new taskModel(obj);
-                await user.save();
-                if (!user) {
+                let task = new taskModel(obj);
+                await task.save();
+                if (!task) {
                     res.send(sendResponse(false, null, "Internal Server Error")).status(400)
                 } else {
-                    res.send(sendResponse(true, user, "Saved Successfully")).status(200);
+                    res.send(sendResponse(true, task, "Saved Successfully")).status(200);
                 }
             }
         } catch (e) {

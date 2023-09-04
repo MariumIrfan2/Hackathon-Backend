@@ -7,18 +7,24 @@ const taskSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+    required: true,
   },
   dueDate: {
     type: String,
     required: true,
   },
-  createdDate: {
+  status: {
     type: String,
+    required: true,
+  },
+  createdDate: {
+    type: Date,
+    default: Date.now,
   },
   updatedDate: {
-    type: String,
+    type: Date,
+    default: Date.now,
   },
-  
   creatorUserID: {
     type: String,
   },

@@ -31,20 +31,32 @@ const TaskController = {
     },
 
     createTask: async (req, res) => {
-        let { title, description, dueDate, createdDate, updatedDate, creatorUserID } = req.body;
+        let { title, description, dueDate, createdDate, updatedDate, status, priority, creatorUserID } = req.body;
         try {
             let errArr = [];
             if (!title) {
                 errArr.push("Required: title")
             }
+            if (!description) {
+                errArr.push("Required: description")
+            }
+            if (!status) {
+                errArr.push("Required: status")
+            }
+            if (!priority) {
+                errArr.push("Required: priority")
+            }
             if (!dueDate) {
                 errArr.push("Required: dueDate")
+            }
+            if (!creatorUserID) {
+                errArr.push("Required: creatorUserID")
             }
             if (errArr.length > 0) {
                 res.send(sendResponse(false, errArr, null, "required All Feilds")).status(400);
                 return;
             } else {
-                let obj = { title, description, dueDate, createdDate, updatedDate, creatorUserID };
+                let obj = { title, description, dueDate, createdDate, updatedDate, status, priority, creatorUserID };
                 let task = new taskModel(obj);
                 await task.save();
                 if (!task) {
